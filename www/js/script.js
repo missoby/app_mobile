@@ -3,8 +3,8 @@ var app = angular.module('app', ['ui.router', 'myFilters']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
         $stateProvider
-                .state('home', {
-                    url: "/home",
+                .state('/', {
+                    url: "/",
                     templateUrl: "partials/home.html",
                     controller: 'homeController',
                     controllerAs: 'homeCtrl'
