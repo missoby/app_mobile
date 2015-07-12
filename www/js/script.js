@@ -2,11 +2,11 @@ var app = angular.module('app', ['ui.router', 'myFilters']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
-            $urlRouterProvider.otherwise('/');
+            $urlRouterProvider.otherwise('/home');
 
             $stateProvider
-                .state('/', {
-                    url: "/",
+                .state('/home', {
+                    url: "/home",
                     templateUrl: "partials/home.html",
                     controller: 'homeController',
                     controllerAs: 'homeCtrl'
@@ -55,6 +55,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                         }
                     }
                 })
+
                 .state('historique', {
                     url: "/historique",
                     views: {
@@ -275,7 +276,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                             templateUrl: 'partials/boutiques.html',
                             controller: 'ShowsController',
                             controllerAs: 'ShowsCtrl'
-                            
+
                         }
                     }
                 })
