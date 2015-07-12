@@ -25,10 +25,8 @@
                         {{ product.CONTENT_TITLE}}
                     </li>
                 </ul>
-
            
         </div>
-
     </section>
 </div>
 
