@@ -1,8 +1,10 @@
 var app = angular.module('app', ['ui.router', 'myFilters']);
 
+app.config(function ($stateProvider, $urlRouterProvider) {
 
-app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-        $stateProvider
+            $urlRouterProvider.otherwise('/');
+
+            $stateProvider
                 .state('/', {
                     url: "/",
                     templateUrl: "partials/home.html",
@@ -300,7 +302,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
                     templateUrl: 'partials/details_boutique.html',
                     controller: 'ShowsDetailController'
                 });
-    }]);
+    });
 
 /******************Contrôlleur d'authentification**********************/
 app.controller('homeController', function ($scope, $location) {
