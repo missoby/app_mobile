@@ -1,45 +1,55 @@
-var app = {
-    // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-       // app.receivedEvent('deviceready');
-       navigator.geolocation.getCurrentPosition(app.onSuccess, app.onError);
-    },
- 
-    onSuccess: function(position){
-        var longitude = position.coords.longitude;
-        var latitude = position.coords.latitude;
-        var latLong = new google.maps.LatLng(latitude, longitude);
- 
-        var mapOptions = {
-            center: latLong,
-            zoom: 13,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
- 
-        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-	
-        var marker = new google.maps.Marker({
-              position: latLong,
-              map: map,
-              title: 'my location'
-          });
-    },
-    
-    onError: function(error){
-        alert("the code is " + error.code + ". \n" + "message: " + error.message);
-    },
-};
+var pictureSource;   // picture source
+var destinationType; // sets the format of returned value
+
+// Wait for device API libraries to load
+//
+document.addEventListener("deviceready", onDeviceReady, false);
+
+// device APIs are available
+//
+function onDeviceReady() {
+    pictureSource = navigator.camera.PictureSourceType;
+    destinationType = navigator.camera.DestinationType;
+}
+function onPhotoDataSuccess(imageData) {
+    var smallImage = document.getElementById('smallImage');
+    smallImage.style.display = 'block';
+    smallImage.src = "data:image/jpeg;base64," + imageData;
+}
+
+// Called when a photo is successfully retrieved
+function onPhotoURISuccess(imageURI) {
+    var smallImage = document.getElementById('smallImage');
+    smallImage.style.display = 'block';
+    smallImage.src = imageURI;
+}
+// A button will call this function
+//
+function capturePhoto() {
+    // Take picture using device camera and retrieve image as base64-encoded string
+    navigator.camera.getPicture(onPhotoDataSuccess, onFail, {quality: 50,
+        destinationType: destinationType.DATA_URL});
+}
+
+// A button will call this function
+//
+function capturePhotoEdit() {
+    // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
+    navigator.camera.getPicture(onPhotoDataSuccess, onFail, {quality: 20, allowEdit: true,
+        destinationType: destinationType.DATA_URL});
+}
+
+// A button will call this function
+//
+function getPhoto(source) {
+    // Retrieve image file location from specified source
+    navigator.camera.getPicture(onPhotoURISuccess, onFail, {quality: 50,
+        destinationType: destinationType.FILE_URI,
+        sourceType: source});
+}
+
+// Called if something bad happens.
+//
+function onFail(message) {
+    alert('Failed because: ' + message);
+}
